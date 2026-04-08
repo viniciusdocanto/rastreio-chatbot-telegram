@@ -1,4 +1,4 @@
-import http from "http";
+import http, { IncomingMessage, ServerResponse } from "http";
 import app from "./app";
 import { MessageFromChat } from "./shared/interfaces/i.chat";
 import IntentsRunService from "./app/services/IntentsRunService";
@@ -10,7 +10,7 @@ import { REGEX_TRACKING } from "./shared/regex";
 
 // Servidor de Health Check para o Render
 const port = process.env.PORT || 8080;
-http.createServer((_req, res) => {
+http.createServer((_req: IncomingMessage, res: ServerResponse) => {
   res.writeHead(200, { "Content-Type": "text/plain" });
   res.write("Bot is running!");
   res.end();

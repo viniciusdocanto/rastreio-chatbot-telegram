@@ -10,7 +10,7 @@ if (!token) {
 
 const app = new TelegramBot(token, { polling: true });
 
-app.on('polling_error', (error) => {
+app.on('polling_error', (error: Error) => {
   console.error('[TelegramBot Polling Error]', error.message);
 });
 

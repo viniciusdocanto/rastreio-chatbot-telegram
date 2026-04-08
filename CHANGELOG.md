@@ -3,6 +3,7 @@
 ## [1.1.2] - 2026-04-08
 ### Fixed
 - Correção de erro de deploy no Render (módulo `dist/index.js` não encontrado).
+- Correção de múltiplos erros de compilação TypeScript no Render (falta de `@types/node` e conflitos de modo estrito).
 - Correção de timeout de porta no Render (adicionado servidor de health check).
 
 ### Added
