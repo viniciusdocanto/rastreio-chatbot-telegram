@@ -10,7 +10,7 @@
   <a href="#computer-sobre-o-projeto">Sobre o projeto</a> | <a href="#rocket-tecnologias">Tecnologias</a> | <a href="#books-guia-de-instalação-e-execução">Guia de instalação e execução</a>
 </p>
 
-![CI Status](https://github.com/nathaliacristina20/rastreio-chatbot-telegram/actions/workflows/ci.yml/badge.svg)
+![CI Status](https://github.com/viniciusdocanto/rastreio-chatbot-telegram/actions/workflows/ci.yml/badge.svg)
 
 ## :computer: Sobre o projeto
 
