@@ -10,7 +10,8 @@ describe('TrackingController', () => {
     it('should return INVALID_CODE on 404 response', async () => {
         (global.fetch as any).mockResolvedValue({
             ok: false,
-            status: 404
+            status: 404,
+            text: async () => "Not Found"
         });
         
         const response = await TrackingController.index('INVALIDCODEBR');
@@ -22,13 +23,12 @@ describe('TrackingController', () => {
             ok: true,
             status: 200,
             json: async () => ({
-                objetos: [{
+                json: JSON.stringify({
                     eventos: [
                         {
-                            dtHrCriado: "2026-01-01T10:00:00",
+                            dtHrCriado: { date: "2026-01-01 10:00:00" },
                             descricao: "Objeto Entregue",
                             unidade: {
-                                tipo: "Agência dos Correios",
                                 endereco: {
                                     cidade: "SÃO PAULO",
                                     uf: "SP"
@@ -36,13 +36,13 @@ describe('TrackingController', () => {
                             }
                         }
                     ]
-                }]
+                })
             })
         });
         
         const response = await TrackingController.index('AA123456789BR');
         expect(response).toContain('Objeto Entregue');
-        expect(response).toContain('SÃO PAULO/SP');
+        expect(response).toContain('SÃO PAULO / SP');
         expect(response).toContain('2026');
     });
 

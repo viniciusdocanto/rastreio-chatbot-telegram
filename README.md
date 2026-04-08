@@ -54,9 +54,9 @@ npm run test
 
 O projeto está configurado para ser publicado facilmente no [Render.com](https://render.com/).
 1. Crie um novo Web Service ligado ao seu repositório Github.
-2. Build Command: `npm install && npm run build`
+2. Build Command: `npm install && npx prisma generate && npm run build`
 3. Start Command: `npm start`
-4. Vá em Environment Variables e adicione `TOKEN` com a chave do seu bot.
+4. Vá em Environment Variables e adicione `TOKEN`, `TRACKING_API_TOKEN` e `DATABASE_URL` (valor: `file:./dev.db`).
 
 ## :page_with_curl: Licença
 

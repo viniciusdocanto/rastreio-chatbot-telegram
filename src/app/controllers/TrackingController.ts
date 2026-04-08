@@ -2,75 +2,112 @@ import { messages } from "../../shared/messages";
 
 class TrackingController {
     async index(trackingCode: string): Promise<string> {
-        try {
-            // =========================================================================
-            // AVISO IMPORTANTE: A API gratuita (Link&Track / Correios-Brasil aberta) 
-            // foi derrubada por conta de bloqueios anti-bot dos Correios em 2024+.
-            // Abaixo, um MOCK foi implementado para fins de teste do bot local, 
-            // e uma instrução de integração com API Keys oficiais foi deixada comentada.
-            // =========================================================================
+        const result = await this.getRawData(trackingCode);
+        return result.message;
+    }
 
-            // Verifica se possui token real para uma API Paga/Oficial.
-            // Exemplo usando linketrack autenticado na V2 ou Api dos Correios original:
+    async getRawData(trackingCode: string): Promise<{ message: string, lastEventDate: string, description: string }> {
+        try {
             const apiToken = process.env.TRACKING_API_TOKEN; 
 
             if (!apiToken) {
-                // FALLBACK: Retornando mock se não houver Token configurado.
-                // Isso permite que você mostre o bot funcionando para seu portfólio.
-                
-                // Simulação de delay de requisição de 1 segundo
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                // FALLBACK: Mock para portfólio
+                await new Promise(resolve => setTimeout(resolve, 800));
                 
                 const dataStr = new Date().toLocaleDateString('pt-BR');
                 const horaStr = new Date().toLocaleTimeString('pt-BR');
+                const lastEventDate = `${dataStr} ${horaStr}`;
 
-                return `<b>Objeto em trânsito - por favor aguarde</b>\nLocal: UNIDADE DE TRATAMENTO - SAO PAULO/SP\n${dataStr} ${horaStr}\n\n<i>(Obs: Este é um Tracking Simulado. Insira seu TRACKING_API_TOKEN no .env para dados reais)</i>`;
+                return {
+                    message: `<b>Objeto em trânsito (Mock)</b>\nLocal: UNIDADE DE TRATAMENTO - SAO PAULO/SP\n${lastEventDate}\n\n<i>(Insira seu TRACKING_API_TOKEN da Wonca no .env para dados reais)</i>`,
+                    lastEventDate,
+                    description: "Objeto em trânsito (Mock)"
+                };
             }
 
-            const url = `https://api.rastreabilidade.correios.com.br/v1/sro-rastro/${trackingCode.toUpperCase()}`;
-            const response = await fetch(url, {
-                method: "GET",
-                headers: { 
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${apiToken}` // API token configurado
-                }
+            const url = "https://api-labs.wonca.com.br/wonca.labs.v1.LabsService/Track";
+            const requestBody = JSON.stringify({ "code": trackingCode.toUpperCase() });
+            
+            // LOG DE ENVIO PARA DEBUG
+            console.log("[Wonca Request]", {
+                url,
+                headers: { "Content-Type": "application/json", "Authorization": "Apikey ***" },
+                body: requestBody
             });
 
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Apikey ${apiToken}`
+                },
+                body: requestBody
+            }) as any;
+
             if (response.status === 429) {
-                return "O sistema está congestionado no momento. Tente novamente em alguns minutos.";
+                return { message: "O sistema está congestionado no momento. Tente novamente em alguns minutos.", lastEventDate: "", description: "" };
             }
 
             if (!response.ok) {
+                // Erro de API: Retornando código inválido ou erro genérico
                 if (response.status === 404 || response.status === 400 || response.status === 401) {
-                    return messages.INVALID_CODE; // Código não encontrado
+                    return { message: messages.INVALID_CODE, lastEventDate: "", description: "" };
                 }
-                return messages.GENERIC_ERROR;
+                return { message: messages.GENERIC_ERROR, lastEventDate: "", description: "" };
             }
 
-            const data = await response.json() as any;
+            const data = await (response as any).json();
+            
+            // LOG DE DEBUG PARA VALIDAR ESTRUTURA
+            console.log("[Wonca API Response]", JSON.stringify(data, null, 2));
 
-            if (!data || !data.objetos || data.objetos.length === 0 || !data.objetos[0].eventos || data.objetos[0].eventos.length === 0) {
-                 return "Ainda não há atualizações para este código de rastreamento.";
+            // A Wonca retorna o resultado principal dentro de uma string escapada no campo 'json'
+            let innerData = data;
+            if (typeof data.json === "string") {
+                try {
+                    innerData = JSON.parse(data.json);
+                } catch (e) {
+                    console.error("[Wonca Parse Error]", e);
+                }
             }
 
-            const track = data.objetos[0].eventos[0];
+            const events = innerData.eventos || innerData.events || [];
+
+            if (!events || events.length === 0) {
+                 return { message: "Ainda não há atualizações para este código de rastreamento.", lastEventDate: "", description: "" };
+            }
+
+            const track = events[0];
             let message = "";
 
-            message += track.descricao ? `<b>${track.descricao}</b>\n` : '';
-            message += track.unidade ? `Local: ${track.unidade.tipo} - ${track.unidade.endereco?.cidade}/${track.unidade.endereco?.uf}\n` : '';
-            message += track.dtHrCriado ? `${new Date(track.dtHrCriado).toLocaleString('pt-BR')}\n` : '';
+            // Mapeamento preciso para a estrutura da Wonca
+            const description = track.descricao || track.description || track.status || "Status não informado";
+            const dateValue = track.dtHrCriado?.date || track.dtHrCriado || track.date || track.data || "";
             
-            return message;
+            // Localização (Cidade/UF)
+            let location = "Local não informado";
+            if (track.unidade && track.unidade.endereco) {
+                const { cidade, uf } = track.unidade.endereco;
+                location = `${cidade || ""}${uf ? " / " + uf : ""}`.trim() || location;
+            }
+
+            message += `<b>${description}</b>\n`;
+            message += `📍 ${location.toUpperCase()}\n`;
+            
+            let cleanDate = "";
+            if (dateValue) {
+                cleanDate = typeof dateValue === "string" ? dateValue.split('.')[0] : dateValue;
+                message += `📅 ${cleanDate}\n`;
+            }
+            
+            return { message, lastEventDate: cleanDate, description };
 
         } catch (error: any) {
             console.error("[TrackingController Error]", error.message || error);
-            
-            // Se for falha de fetch (ex: DNS down da API) retorna algo mais amigável
-            if (error.cause && error.cause.code === 'ENOTFOUND') {
-                return "Infelizmente, o serviço público de rastreios está temporariamente fora do ar. 😔\nTente novamente mais tarde!";
-            }
-
-            return messages.GENERIC_ERROR;
+            const fallbackMsg = (error.cause && error.cause.code === 'ENOTFOUND') 
+                ? "Infelizmente, o serviço público de rastreios está temporariamente fora do ar. 😔\nTente novamente mais tarde!"
+                : messages.GENERIC_ERROR;
+            return { message: fallbackMsg, lastEventDate: "", description: "" };
         }
     }
 }
