@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import IntentsRunService from '../IntentsRunService';
 import { messages } from '../../../shared/messages';
 
@@ -24,8 +24,16 @@ describe('IntentsRunService', () => {
     });
 
     it('should execute tracking controller passing regex tracking code', async () => {
+        // Mocking fetch specifically for this test
+        global.fetch = vi.fn().mockResolvedValue({
+            ok: true,
+            status: 200,
+            json: async () => ({
+                eventos: [{ status: "Recebido" }]
+            })
+        }) as any;
+        
         const response = await IntentsRunService.execute('AA123456789BR');
-        // Because fetch is mocked or we can just see if it doesn't return NOT_EXPECTED
         expect(response).not.toBe(messages.NOT_EXPECTED);
     });
 

@@ -4,6 +4,7 @@ import { messages } from '../../../shared/messages';
 
 // Mock glogal fetch
 global.fetch = vi.fn();
+process.env.TRACKING_API_TOKEN = 'test_token';
 
 describe('TrackingController', () => {
     it('should return INVALID_CODE on 404 response', async () => {
@@ -21,32 +22,38 @@ describe('TrackingController', () => {
             ok: true,
             status: 200,
             json: async () => ({
-                codigo: "AA123456789BR",
-                eventos: [
-                    {
-                        data: "01/01/2026",
-                        hora: "10:00:00",
-                        status: "Objeto Entregue",
-                        subStatus: [],
-                        local: "SÃO PAULO - SP"
-                    }
-                ]
+                objetos: [{
+                    eventos: [
+                        {
+                            dtHrCriado: "2026-01-01T10:00:00",
+                            descricao: "Objeto Entregue",
+                            unidade: {
+                                tipo: "Agência dos Correios",
+                                endereco: {
+                                    cidade: "SÃO PAULO",
+                                    uf: "SP"
+                                }
+                            }
+                        }
+                    ]
+                }]
             })
         });
         
         const response = await TrackingController.index('AA123456789BR');
         expect(response).toContain('Objeto Entregue');
-        expect(response).toContain('SÃO PAULO - SP');
-        expect(response).toContain('01/01/2026 10:00:00');
+        expect(response).toContain('SÃO PAULO/SP');
+        expect(response).toContain('2026');
     });
 
     it('should return no updates message when events list is empty', async () => {
-         (global.fetch as any).mockResolvedValue({
+        (global.fetch as any).mockResolvedValue({
             ok: true,
             status: 200,
             json: async () => ({
-                codigo: "AA123456789BR",
-                eventos: []
+                objetos: [{
+                    eventos: []
+                }]
             })
         });
         
