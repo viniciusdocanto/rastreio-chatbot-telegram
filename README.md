@@ -53,10 +53,15 @@ npm run test
 ### Como fazer o Deploy no Render
 
 O projeto está configurado para ser publicado facilmente no [Render.com](https://render.com/).
-1. Crie um novo Web Service ligado ao seu repositório Github.
-2. Build Command: `npm install && npx prisma generate && npm run build`
-3. Start Command: `npm start`
-4. Vá em Environment Variables e adicione `TOKEN`, `TRACKING_API_TOKEN` e `DATABASE_URL` (valor: `file:./dev.db`).
+1. Crie um novo **Web Service** ligado ao seu repositório Github.
+2. **Build Command**: `npm run render-build` 
+3. **Start Command**: `npm start`
+4. Vá em **Environment Variables** e adicione:
+   - `TOKEN`: Seu token do Telegram.
+   - `TRACKING_API_TOKEN`: Seu token da API Link&Track.
+   - `DATABASE_URL`: `file:./prisma/dev.db`
+   - `PORT`: O Render define isso automaticamente.
+
 
 ## :page_with_curl: Licença
 
