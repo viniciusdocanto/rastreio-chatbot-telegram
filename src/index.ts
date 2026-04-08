@@ -1,3 +1,4 @@
+import http from "http";
 import app from "./app";
 import { MessageFromChat } from "./shared/interfaces/i.chat";
 import IntentsRunService from "./app/services/IntentsRunService";
@@ -7,8 +8,18 @@ import TrackingController from "./app/controllers/TrackingController";
 import { messages } from "./shared/messages";
 import { REGEX_TRACKING } from "./shared/regex";
 
+// Servidor de Health Check para o Render
+const port = process.env.PORT || 8080;
+http.createServer((_req, res) => {
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.write("Bot is running!");
+  res.end();
+}).listen(port);
+console.log(`[HealthCheck] Server running on port ${port}`);
+
 // Inicializa o serviço de notificações automáticas
 NotificationService.init(app);
+
 
 app.on("message", async (msg: MessageFromChat) => {
   try {
