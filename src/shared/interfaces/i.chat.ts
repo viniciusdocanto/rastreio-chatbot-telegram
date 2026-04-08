@@ -1,9 +1,9 @@
 export interface MessageFromChat {
   chat: {
-    id: string;
+    id: number;
   };
-  text: string;
-  from: {
+  text?: string;
+  from?: {
     first_name: string;
   };
 }

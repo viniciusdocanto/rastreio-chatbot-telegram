@@ -1,6 +1,17 @@
-const TelegramBot = require("node-telegram-bot-api");
+import TelegramBot from 'node-telegram-bot-api';
+import dotenv from 'dotenv';
 
-require("dotenv").config();
+dotenv.config();
 const token = process.env.TOKEN;
 
-export default new TelegramBot(token, { polling: true });
+if (!token) {
+  throw new Error('TOKEN is not set in environment variables');
+}
+
+const app = new TelegramBot(token, { polling: true });
+
+app.on('polling_error', (error) => {
+  console.error('[TelegramBot Polling Error]', error.message);
+});
+
+export default app;

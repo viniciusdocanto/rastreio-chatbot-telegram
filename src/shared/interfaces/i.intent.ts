@@ -4,5 +4,5 @@ export interface Intent {
     answers: Array<string>;
     buttons?: Array<string>  
     pattern?: RegExp;
-    function?: Function; 
+    function?: (message: string) => Promise<string>; 
 }

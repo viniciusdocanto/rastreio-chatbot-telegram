@@ -1,6 +1,6 @@
 {
   "compilerOptions": {   
-    "target": "es5",                   
+    "target": "es2020",                   
     "module": "commonjs",   
     "outDir": "./dist",
     "rootDir": "./src",
@@ -8,6 +8,12 @@
     "baseUrl": "./src",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "lib": ["es2020"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
