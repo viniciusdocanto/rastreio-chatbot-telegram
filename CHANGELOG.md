@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.3] - 2026-04-08
+### Fixed
+- Correção de múltiplos erros de compilação TypeScript no Render (falta de reconhecimento de `fetch`, `console` e `process`).
+- Correção da versão do `vitest` que estava incorreta no `package.json`.
+- Mapeamento correto de `@types` para `devDependencies`.
+- Inclusão da biblioteca `DOM` no `tsconfig.json` para garantir compatibilidade com `fetch` global.
+
+
 ## [1.1.2] - 2026-04-08
 ### Fixed
 - Correção de erro de deploy no Render (módulo `dist/index.js` não encontrado).
