@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.9] - 2026-04-09
+### Fixed
+- Melhoria no binding da porta no Render: alterado de `localhost` para `0.0.0.0` para garantir a detecção correta pelo health check da plataforma.
+- Adicionado `Number(port)` explícito no servidor HTTP.
+
 ## [1.1.8] - 2026-04-09
 ### Fixed
 - Corrigido erro `MODULE_NOT_FOUND` no Render causado pela ausência da compilação durante o deploy.

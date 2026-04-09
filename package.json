@@ -1,6 +1,6 @@
 {
   "name": "chatbot-telegram",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Chatbot for tracking packages in telegram",
   "repository": "https://github.com/viniciusdocanto/rastreio-chatbot-telegram",
   "author": "Vinicius do Canto <viniciusdocanto@users.noreply.github.com>",

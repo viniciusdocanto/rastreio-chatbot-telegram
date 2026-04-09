@@ -16,8 +16,8 @@ http
     res.writeHead(200, { "Content-Type": "text/plain" });
     res.end("Bot is running!");
   })
-  .listen(port, () => {
-    console.log(`[HealthCheck] Server running on port ${port}`);
+  .listen(Number(port), "0.0.0.0", () => {
+    console.log(`[HealthCheck] Server running on port ${port} (0.0.0.0)`);
     void initBot();
   });
 
