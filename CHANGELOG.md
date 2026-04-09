@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.8] - 2026-04-09
+### Fixed
+- Corrigido erro `MODULE_NOT_FOUND` no Render causado pela ausência da compilação durante o deploy.
+- Automatizado o processo de build através do script `postinstall` no `package.json`, garantindo que o compilador TypeScript (`tsc`) seja executado sempre que as dependências forem instaladas.
+
 ## [1.1.7] - 2026-04-09
 ### Fixed
 - Corrigido erro de porta não detectada no Render (`Port scan timeout reached`).
