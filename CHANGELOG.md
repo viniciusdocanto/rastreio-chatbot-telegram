@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.7] - 2026-04-09
+### Fixed
+- Corrigido erro de porta não detectada no Render (`Port scan timeout reached`).
+- Reestruturado `index.ts` para usar importações dinâmicas (`await import()`): o servidor HTTP de health check agora sobe antes de qualquer código que possa lançar exceção (ex: `TOKEN` ausente).
+- No modelo CommonJS gerado pelo `tsc`, as importações estáticas são elevadas (`require()` no topo), fazendo o processo encerrar antes do `.listen()` quando o bot falhava na inicialização. As importações dinâmicas garantem a ordem correta de execução.
+
 ## [1.1.6] - 2026-04-08
 ### Fixed
 - Corrigido erro `TS2307: Cannot find module 'vitest'` durante o build de produção no Render.
