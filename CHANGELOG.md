@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.5] - 2026-04-08
+### Fixed
+- Corrigido definitivamente o erro `TS2688: Cannot find type definition file for 'node'` no build do Render.
+- Adicionado `"types": ["node"]` explicitamente no `tsconfig.json` para garantir resolução correta dos tipos.
+- Movidos `@types/node`, `@types/node-cron` e `@types/node-telegram-bot-api` para `dependencies`, assegurando instalação em ambientes de build que não instalam `devDependencies`.
+
 ## [1.1.4] - 2026-04-08
 ### Fixed
 - Correção do erro `TS2688` no Render através da otimização da descoberta automática de tipos no `tsconfig.json`.
