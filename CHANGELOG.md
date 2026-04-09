@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.6] - 2026-04-08
+### Fixed
+- Corrigido erro `TS2307: Cannot find module 'vitest'` durante o build de produção no Render.
+- Adicionados padrões `**/__tests__/**`, `**/*.test.ts` e `**/*.spec.ts` ao array `exclude` do `tsconfig.json`, impedindo que arquivos de teste sejam incluídos na compilação TypeScript.
+
 ## [1.1.5] - 2026-04-08
 ### Fixed
 - Corrigido definitivamente o erro `TS2688: Cannot find type definition file for 'node'` no build do Render.
