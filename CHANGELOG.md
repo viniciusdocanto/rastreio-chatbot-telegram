@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.4] - 2026-04-08
+### Fixed
+- Correção do erro `TS2688` no Render através da otimização da descoberta automática de tipos no `tsconfig.json`.
+
 ## [1.1.3] - 2026-04-08
 ### Fixed
 - Correção de múltiplos erros de compilação TypeScript no Render (falta de reconhecimento de `fetch`, `console` e `process`).
