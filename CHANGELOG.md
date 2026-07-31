@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.12] - 2026-07-31
+### Fixed
+- Bloqueada versão do Prisma para `~5.10.2` no `package.json` para evitar atualizações acidentais para o Prisma 7 no ambiente do servidor/Mac mini.
+
 ## [1.1.11] - 2026-07-31
 ### Documentation
 - Atualização completa do `README.md`: correção da URL do repositório, autor, inclusão da API Wonca, Prisma ORM, comandos do bot, scripts de execução e instruções atualizadas de deploy no Render.
