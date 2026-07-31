@@ -109,16 +109,19 @@ async function initBot(): Promise<void> {
             !match.includes("fora do ar") &&
             !match.includes("Erro")
           ) {
-            const rawData = await TrackingController.getRawData(codeMatch[0]);
+            const trackingCode = codeMatch[0];
+            const customDescription = client_response.replace(trackingCode, "").trim();
+            const rawData = await TrackingController.getRawData(trackingCode);
+            const descriptionToSave = customDescription || rawData.description;
             await TrackingService.save(
               chatId,
-              codeMatch[0],
+              trackingCode,
               firstName,
-              rawData.description,
+              descriptionToSave,
               rawData.lastEventDate
             );
             console.log(
-              `[Persistence] Tracking salvo para ${firstName}: ${codeMatch[0]}`
+              `[Persistence] Tracking salvo para ${firstName}: ${trackingCode} (${descriptionToSave})`
             );
           }
         } else if (match && typeof match === "object" && match.answers) {

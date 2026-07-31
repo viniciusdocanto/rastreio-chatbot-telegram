@@ -29,6 +29,10 @@ export const intents: Intent[] = [
     pattern: regex.TRACKING_CODE,
     answers: [],
     buttons: [],
-    function: (message: string) => TrackingController.index(message) 
+    function: (message: string) => {
+      const match = message.match(regex.TRACKING_CODE);
+      const code = match ? match[0] : message;
+      return TrackingController.index(code);
+    }
    }
 ]

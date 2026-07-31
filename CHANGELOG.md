@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.15] - 2026-07-31
+### Added
+- Suporte a envio de descrições junto do código de rastreamento (ex: `NN331583959BR relogio termometro`), ajustando as expressões regulares no `regex.ts`, a extração no `intents.ts` e salvando o texto complementar como descrição do pacote no banco de dados.
+
 ## [1.1.14] - 2026-07-31
 ### Fixed
 - Tratada a variável de ambiente `DATABASE_URL` no `PrismaService.ts` para garantir o prefixo `file:` e fallback automático para `"file:./prisma/dev.db"`, evitando o erro `Error validating datasource db: the URL must start with the protocol file:`.
