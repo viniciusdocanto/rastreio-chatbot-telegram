@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.11] - 2026-07-31
+### Documentation
+- Atualização completa do `README.md`: correção da URL do repositório, autor, inclusão da API Wonca, Prisma ORM, comandos do bot, scripts de execução e instruções atualizadas de deploy no Render.
+
 ## [1.1.10] - 2026-07-31
 ### Fixed
 - Corrigido erro `TS7006: Parameter 't' implicitly has an 'any' type` adicionando anotação de tipo explícita no callback em `src/index.ts` e tipos de retorno no `TrackingService`.
