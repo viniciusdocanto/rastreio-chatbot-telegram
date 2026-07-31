@@ -49,8 +49,8 @@ class TrackingController {
             }
 
             if (!response.ok) {
-                // Erro de API: Retornando código inválido ou erro genérico
-                if (response.status === 404 || response.status === 400 || response.status === 401) {
+                console.error("[Wonca API HTTP Error]", response.status, response.statusText);
+                if (response.status === 404 || response.status === 400 || response.status === 401 || response.status === 403) {
                     return { message: messages.INVALID_CODE, lastEventDate: "", description: "" };
                 }
                 return { message: messages.GENERIC_ERROR, lastEventDate: "", description: "" };

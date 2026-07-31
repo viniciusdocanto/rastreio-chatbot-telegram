@@ -105,6 +105,8 @@ async function initBot(): Promise<void> {
           if (
             codeMatch &&
             !match.includes(messages.INVALID_CODE) &&
+            !match.includes(messages.GENERIC_ERROR) &&
+            !match.includes("fora do ar") &&
             !match.includes("Erro")
           ) {
             const rawData = await TrackingController.getRawData(codeMatch[0]);

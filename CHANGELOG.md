@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.13] - 2026-07-31
+### Fixed
+- Melhorado o tratamento e log de erros no `TrackingController` e `src/index.ts`, evitando a persistência indevida de mensagens de erro genérico no banco e adicionando tratamento para status 403 da API de rastreamento.
+
 ## [1.1.12] - 2026-07-31
 ### Fixed
 - Bloqueada versão do Prisma para `~5.10.2` no `package.json` para evitar atualizações acidentais para o Prisma 7 no ambiente do servidor/Mac mini.
