@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.14] - 2026-07-31
+### Fixed
+- Tratada a variável de ambiente `DATABASE_URL` no `PrismaService.ts` para garantir o prefixo `file:` e fallback automático para `"file:./prisma/dev.db"`, evitando o erro `Error validating datasource db: the URL must start with the protocol file:`.
+
 ## [1.1.13] - 2026-07-31
 ### Fixed
 - Melhorado o tratamento e log de erros no `TrackingController` e `src/index.ts`, evitando a persistência indevida de mensagens de erro genérico no banco e adicionando tratamento para status 403 da API de rastreamento.
