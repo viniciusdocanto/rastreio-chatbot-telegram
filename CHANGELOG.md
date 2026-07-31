@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.10] - 2026-07-31
+### Fixed
+- Corrigido erro `TS7006: Parameter 't' implicitly has an 'any' type` adicionando anotação de tipo explícita no callback em `src/index.ts` e tipos de retorno no `TrackingService`.
+- Atualizado o script `build` no `package.json` para executar `prisma generate` antes do `tsc`.
+
 ## [1.1.9] - 2026-04-09
 ### Fixed
 - Melhoria no binding da porta no Render: alterado de `localhost` para `0.0.0.0` para garantir a detecção correta pelo health check da plataforma.

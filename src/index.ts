@@ -67,7 +67,7 @@ async function initBot(): Promise<void> {
           }
 
           let listMsg = "<b>Seus Pacotes Monitorados:</b>\n\n";
-          myTracks.forEach((t) => {
+          myTracks.forEach((t: { code: string; description?: string | null }) => {
             listMsg += `📦 <code>${t.code}</code> - ${t.description || "Sem descrição"}\n`;
           });
           listMsg += "\n<i>Para parar de seguir, use: /remover CODIGO</i>";
